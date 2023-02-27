@@ -1,6 +1,6 @@
 # Slime Tower
 
-It's our course project of `Introduction to Computer`.
+It's our course project of **Introduction to Computer** in National Taiwan University.
 
 We use Jack to build a game called **Slime Tower**
 
