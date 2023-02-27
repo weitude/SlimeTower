@@ -1,3 +1,3 @@
 # Slime Tower
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/8xX4LmvyG_0/hqdefault.jpg)](https://youtu.be/8xX4LmvyG_0)
+https://user-images.githubusercontent.com/98746868/221481044-b3f01b95-dc34-42b7-89fb-4ec8c69f8cc4.mp4
