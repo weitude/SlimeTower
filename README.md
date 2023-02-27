@@ -1,6 +1,6 @@
 # Slime Tower
 
-It's our homework project of `Introduction to Computer`.
+It's our course project of `Introduction to Computer`.
 
 We use Jack to build a game called **Slime Tower**
 
