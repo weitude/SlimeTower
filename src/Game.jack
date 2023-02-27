@@ -1,0 +1,275 @@
+class Game{
+    field Map map;
+    field Player p;
+    field Monster mob;
+    field int currentLevel;
+
+    constructor Game new(){
+        let map = Map.new();
+        let p = Player.new(14,1); 
+        let mob = map.getMob();
+        let currentLevel = 0;
+        return this;
+    }
+
+    method void move(int npx,int npy){
+        do map.empty(currentLevel,p.getx(),p.gety());
+        do Pic.drawempty(512*p.getx()+p.gety());
+        do p.changepos(npx,npy);
+        do p.draw();
+        return;
+    }
+
+    function boolean inwalkway(int x,int y){
+        if( (x<13) & (x>7) & (y>10) & (y<13)){
+            return true;
+        }
+        return false;
+    }
+
+    method void fireanimation(){
+
+        var int i,n;
+        let n = 400;
+
+        do Pic.drawfire(8*512+9);
+        do Pic.drawfire(8*512+14);
+        do map.fire(8,9);
+        do map.fire(8,14);
+        do Sys.wait(n);
+
+        do Pic.drawfire(8*512+8);
+        do Pic.drawfire(8*512+15);
+        do map.fire(8,8);
+        do map.fire(8,15);
+        do Sys.wait(n);
+
+        let i = 7;
+        while(i>0){
+            do Pic.drawfire(i*512+8);
+            do Pic.drawfire(i*512+15);
+            do map.fire(i,8);
+            do map.fire(i,15);
+            do Sys.wait(n);
+            let i = i-1;
+        }
+
+        do Pic.drawfire(1*512+9);
+        do Pic.drawfire(1*512+14);
+        do map.fire(1,9);
+        do map.fire(1,14);
+        do Sys.wait(n);
+
+        do Pic.drawfire(1*512+10);
+        do Pic.drawfire(1*512+13);
+        do map.fire(1,10);
+        do map.fire(1,13);
+        do Sys.wait(n);
+
+        do Pic.drawfire(1*512+11);
+        do Pic.drawfire(1*512+12);
+        do map.fire(1,11);
+        do map.fire(1,12);
+        do Sys.wait(n);
+        return;
+    }
+
+    method void dispose(){
+        do map.dispose();
+        do mob.dispose();
+        do p.dispose();
+        do Memory.deAlloc(this);
+        return ;
+    }
+
+    method boolean gameloop(){
+        var boolean continue,win,nobossone,nobosstwo,temp;
+        var char key;
+        var int npx,npy,newspace,result,bosstwodc,i,j,k,maxlevel;
+
+        do Story.tellStory(0);
+        
+        do map.drawMap(currentLevel);
+        do p.draw();
+        do p.drawStatus();
+        
+        let maxlevel=0;
+        let bosstwodc=0;
+        let nobossone=true;
+        let nobosstwo=true;
+        let continue = true;
+        let win = false;
+        while(continue){
+            do Sys.wait(150);
+            let key = Pic.getkey();
+            let npx = p.getx();
+            let npy = p.gety();
+            if(key=87){//move up
+                let npx = p.getx()-1;
+                let npy = p.gety();
+            }
+            if(key=83){//move down
+                let npx = p.getx()+1;
+                let npy = p.gety();
+            }
+            if(key=68){//move right
+                let npx = p.getx();
+                let npy = p.gety()+1;
+            }
+            if(key=65){//move left
+                let npx = p.getx();
+                let npy = p.gety()-1;
+            }
+            if(key=81){//q = quit
+                let continue = false;
+            }
+
+            if(currentLevel=4){
+                let newspace = map.getnum(currentLevel,npx,npy);
+                if(newspace=0){
+                    do move(npx,npy);
+                }
+                if(newspace=5000){
+                    let continue=false;
+                }
+                if(newspace/1000=4){
+                    do map.empty(currentLevel,p.getx(),p.gety());
+                    if(newspace-4000=1){
+                        let currentLevel = currentLevel+1;
+                    }
+                    if(newspace-4000=0){
+                        let currentLevel = currentLevel-1;
+                    }
+
+                    do map.drawMap(currentLevel);
+                    do p.draw();
+                    do p.drawStatus();
+                }
+                if(newspace/1000=2){
+                    let result = mob.combat(newspace-2000,p);
+
+                    //add animation
+
+                    do p.drawStatus();
+                    do mob.drawStatus(newspace-2000);
+                    if(result = 1){
+                        let continue = false;
+                    }
+                    let temp = (result = 2);
+
+                    if(result = 2){
+
+                        if(~nobosstwo){//boss two die
+
+                            //empty
+                            do map.emptybosstwo(newspace);
+
+                            do Screen.setColor(false);
+                            do Screen.drawRectangle(384,128,511,255);
+                            let bosstwodc = bosstwodc+1;
+                            if(bosstwodc = 4){//no boss left
+                                let continue = false;
+                                let win = true;
+                            }
+                        }
+                        if(nobosstwo){//boss one die
+                            do Screen.setColor(false);
+                            do Screen.drawRectangle(384,128,511,255);
+                            let nobosstwo = false;
+                            do map.setbossstagetwo();   
+                        }
+                        do p.draw();
+                    }
+                    
+                    
+                }
+                if(Game.inwalkway(npx,npy)){
+                    do map.fire(npx,10);
+                    do map.fire(npx,13);
+                    do map.empty(4,npx,11);
+                    do map.empty(4,npx,12);
+                    do Pic.drawfire(512*npx+10);
+                    do Pic.drawfire(512*npx+13);
+                    do Pic.drawempty(512*npx+11);
+                    do Pic.drawempty(512*npx+12);
+                    do move(npx,npy);
+                }
+                let temp = (npx=8);
+                if(temp&nobossone){
+                    //fire animation
+                    do fireanimation();
+                    do map.setbossstageone();
+                    let nobossone = false;
+                }
+                
+            }
+            else{
+                let newspace = map.getnum(currentLevel,npx,npy);
+                if(newspace=0){
+                    do move(npx,npy);
+                }
+                if(newspace/1000=3){
+                    do Object.interact(p,newspace-3000);
+                    do p.drawStatus();
+                    do move(npx,npy);
+                }
+                if(newspace/1000=2){
+                    let result = mob.combat(newspace-2000,p);
+
+                    //add animation
+
+                    do p.drawStatus();
+                    do mob.drawStatus(newspace-2000);
+                    if(result = 1){
+                        let continue = false;
+                    }
+                    if(result = 2){
+                        do map.empty(currentLevel,npx,npy);
+                        do Pic.drawempty(512*npx+npy);
+                        do Screen.setColor(false);
+                        do Screen.drawRectangle(384,128,511,255);
+                    }
+                }
+                if(newspace/1000=4){
+                    do map.empty(currentLevel,p.getx(),p.gety());
+                    if(newspace-4000=1){
+                        let currentLevel = currentLevel+1;
+                    }
+                    if(newspace-4000=0){
+                        let currentLevel = currentLevel-1;
+                    }
+
+                    if(currentLevel>maxlevel){
+                        do Story.tellStory(currentLevel);
+                        let maxlevel = currentLevel;
+                    }
+
+                    do map.drawMap(currentLevel);
+                    if(currentLevel=4){
+                        let i = 0;
+                        if(~nobossone){
+                            let i = i+1;
+                        }
+                        if(~nobosstwo){
+                            let i = i+1;
+                        }
+                        if(i=1){
+                            do Boss.drawstageone();
+                        }
+                        if(i=2){
+                            do map.checkstagetwoboss();
+                        }
+                    }
+                    do p.draw();
+                    do p.drawStatus();
+                }
+            }
+
+            
+        }
+
+        do Story.tellStory(5);
+
+        return win;
+    }
+}

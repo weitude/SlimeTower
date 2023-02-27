@@ -1,0 +1,79 @@
+class Story{
+
+    function void tellStory(int level){
+
+        var String s;
+
+        do Screen.setColor(true);
+        do Screen.drawRectangle(0,0,383,255);
+        do Screen.setColor(false);
+        do Screen.drawRectangle(16,16,367,239);
+
+        if(level = 0){
+            let s = "Come save me, my hero!";
+            do Output.moveCursor(11,12);
+            do Story.textanimation(s);
+            do s.dispose();
+        }
+
+        if(level = 1){
+            let s = "Great job! You can do this!";
+            do Output.moveCursor(11,10);
+            do Story.textanimation(s);
+            do s.dispose();
+        }
+
+        if(level = 2){
+            let s = "Don't use all the health potion.";
+            do Output.moveCursor(11,8);
+            do Story.textanimation(s);
+            do s.dispose();
+        }
+
+        if(level = 3){
+            let s = "Don't play with fire. You'll die.";
+            do Output.moveCursor(11,8);
+            do Story.textanimation(s);
+            do s.dispose();
+        }
+
+        if(level = 4){
+            let s = "Here comes the boss! Be careful...";
+            do Output.moveCursor(11,7);
+            do Story.textanimation(s);
+            do s.dispose();
+        }
+        
+        if(level = 5){
+            let s = "Finally, you're here.";
+            do Output.moveCursor(9,13);
+            do Story.textanimation(s);
+            let s = "Now, wake up and start coding!";
+            do Output.moveCursor(11,9);
+            do Story.textanimation(s);
+            let s = "https://judgegirl.csie.org";
+            do Output.moveCursor(13,11);
+            do Story.textanimation(s);
+            do s.dispose();
+        }
+
+        do Pic.getkey();
+
+        return ;
+    }
+
+    function void textanimation(String s){
+        var int i,n;
+        let n = s.length()+2;
+        let i = 2;
+        while(i<n){
+
+            do Output.printChar(s[i]);
+            do Sys.wait(60);
+
+            let i = i+1;
+        }
+        return;
+    }
+
+}

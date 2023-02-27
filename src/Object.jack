@@ -1,0 +1,93 @@
+class Object{
+    
+    function void interact(Player p,int type){
+        //potion
+        if(type=0){
+            //add health
+            do p.heal();
+            do p.drawStatus();
+            return;
+        }
+        if(type=1){
+            //add attack
+            do p.addATK();
+            do p.drawStatus();
+            return;
+        }
+        if(type=2){
+            //add defense
+            do p.addDEF();
+            do p.drawStatus();
+            return;
+        }
+        else{
+            return;
+        }
+    }
+
+    function void draw(int location,int type){
+        var int memAddress;
+        let memAddress = 16384+location;
+        if(type=0){
+            do Memory.poke(memAddress+0, 0);
+            do Memory.poke(memAddress+32, 0);
+            do Memory.poke(memAddress+64, 2016);
+            do Memory.poke(memAddress+96, 576);
+            do Memory.poke(memAddress+128, 576);
+            do Memory.poke(memAddress+160, 3696);
+            do Memory.poke(memAddress+192, 4104);
+            do Memory.poke(memAddress+224, 8196);
+            do Memory.poke(memAddress+256, 8196);
+            do Memory.poke(memAddress+288, 16380);
+            do Memory.poke(memAddress+320, 16380);
+            do Memory.poke(memAddress+352, 8184);
+            do Memory.poke(memAddress+384, 8184);
+            do Memory.poke(memAddress+416, 4080);
+            do Memory.poke(memAddress+448, 960);
+            do Memory.poke(memAddress+480, 0);
+            return ;
+        }
+        if(type=1){
+            do Memory.poke(memAddress+0, 0);
+            do Memory.poke(memAddress+32, 384);
+            do Memory.poke(memAddress+64, 576);
+            do Memory.poke(memAddress+96, 576);
+            do Memory.poke(memAddress+128, 576);
+            do Memory.poke(memAddress+160, 576);
+            do Memory.poke(memAddress+192, 576);
+            do Memory.poke(memAddress+224, 576);
+            do Memory.poke(memAddress+256, 576);
+            do Memory.poke(memAddress+288, 4680);
+            do Memory.poke(memAddress+320, 3696);
+            do Memory.poke(memAddress+352, 1632);
+            do Memory.poke(memAddress+384, 384);
+            do Memory.poke(memAddress+416, 384);
+            do Memory.poke(memAddress+448, 384);
+            do Memory.poke(memAddress+480, 0);
+            return ;
+        }
+        if(type=2){
+            do Memory.poke(memAddress+0, 0);
+            do Memory.poke(memAddress+32, 32766);
+            do Memory.poke(memAddress+64, 16642);
+            do Memory.poke(memAddress+96, 16642);
+            do Memory.poke(memAddress+128, 16642);
+            do Memory.poke(memAddress+160, 16642);
+            do Memory.poke(memAddress+192, 32510);
+            do Memory.poke(memAddress+224, 16642);
+            do Memory.poke(memAddress+256, 16642);
+            do Memory.poke(memAddress+288, 16642);
+            do Memory.poke(memAddress+320, 16642);
+            do Memory.poke(memAddress+352, 8452);
+            do Memory.poke(memAddress+384, 4360);
+            do Memory.poke(memAddress+416, 2320);
+            do Memory.poke(memAddress+448, 2016);
+            do Memory.poke(memAddress+480, 0);
+            return ;
+        }
+        else{
+            return ;
+        }
+    }
+
+}

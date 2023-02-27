@@ -1,0 +1,35 @@
+class Str{
+    function void pstr(int x,int y,int type){
+        var String s;
+
+        if(type=0){
+            let s = "Player";
+            do Output.moveCursor(x,y);
+            do Output.printString(s);
+            do s.dispose();
+            return;
+        }
+        if(type=1){
+            let s = "HP  :";
+            do Output.moveCursor(x,y);
+            do Output.printString(s);
+            do s.dispose();
+            return;
+        }
+        if(type=2){
+            let s = "ATK :";
+            do Output.moveCursor(x,y);
+            do Output.printString(s);
+            do s.dispose();
+            return;
+        }
+        if(type=3){
+            let s = "DEF :";
+            do Output.moveCursor(x,y);
+            do Output.printString(s);
+            do s.dispose();
+            return;
+        }
+        return ;
+    }
+}

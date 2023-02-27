@@ -1,0 +1,163 @@
+class Player{
+
+    field int hp;
+    field int atk,def;
+    field int x,y;
+
+    constructor Player new(int xx,int yy){
+        let hp = 100;
+        let atk = 10;
+        let def = 0;
+        let x = xx;
+        let y = yy;
+        return this;
+    }
+
+    method void setStartingLocation(int level,int uod){
+        if(level = 1){
+            if(uod=1){//up
+                let x = 14;
+                let y = 1;
+            }
+            if(uod=0){//down
+                let x = 1;
+                let y = 22;
+            }
+        }
+        if(level = 2){
+            if(uod=1){//up
+                let x = 14;
+                let y = 1;
+            }
+            if(uod=0){//down
+                let x = 1;
+                let y = 22;
+            }
+        }
+        if(level = 3){
+            if(uod=1){//up
+                let x = 14;
+                let y = 1;
+            }
+            if(uod=0){//down
+                let x = 1;
+                let y = 22;
+            }
+        }
+        if(level = 4){
+            if(uod=1){//up
+                let x = 14;
+                let y = 1;
+            }
+            if(uod=0){//down
+                let x = 1;
+                let y = 22;
+            }
+        }
+        return ;
+    }
+
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return ;
+    }
+
+    method int isdead(){
+        if(hp>0){
+            return 0;
+        }
+        return 1;
+    }
+
+    method int getx(){
+        return x;
+    }
+    method int gety(){
+        return y;
+    }
+    method int getATK(){
+        return atk;
+    }
+    method void changepos(int xx,int yy){
+        let x = xx;
+        let y = yy;
+        return ;
+    }
+
+    method int getindex(){
+        var int in;
+        let in = 480*x+y;
+        return in;
+    }
+
+    method void heal(){
+        let hp = hp + 30;
+        if(hp>100){
+            let hp = 100;
+        }
+        return ;
+    }
+
+    method void addATK(){
+        let atk = atk + 6;
+        if(atk>50){
+            let atk = 50;
+        }
+        return ;
+    }
+    method void addDEF(){
+        let def = def + 4;
+        if(def>50){
+            let def = 50;
+        }
+        return ;
+    }
+
+    method void damage(int d){
+        if(d>def){
+            let hp = hp-d+def;
+        }
+        if(d<def){
+            let hp = hp-1;
+        }
+        return;
+    }
+
+    method void drawStatus(){
+        do Screen.setColor(false);
+        do Screen.drawRectangle(384,0,511,127);
+        do Str.pstr(1,50,0);
+        do Str.pstr(3,50,1);
+        do Output.printInt(hp);
+        do Str.pstr(5,50,2);
+        do Output.printInt(atk);
+        do Str.pstr(7,50,3);
+        do Output.printInt(def);
+        return ;
+    }   
+
+    method void draw(){
+        var int memAddress;
+        var int in;
+        let in = 512*x+y;
+        let memAddress = 16384+in;
+        do Memory.poke(memAddress+0, 0);
+        do Memory.poke(memAddress+32, 8184);
+        do Memory.poke(memAddress+64, 10212);
+        do Memory.poke(memAddress+96, 10260);
+        do Memory.poke(memAddress+128, 28686);
+        do Memory.poke(memAddress+160, 29262);
+        do Memory.poke(memAddress+192, 29262);
+        do Memory.poke(memAddress+224, -28664);
+        do Memory.poke(memAddress+256, 26640);
+        do Memory.poke(memAddress+288, 8184);
+        do Memory.poke(memAddress+320, 8184);
+        do Memory.poke(memAddress+352, 3408);
+        do Memory.poke(memAddress+384, 2736);
+        do Memory.poke(memAddress+416, 4080);
+        do Memory.poke(memAddress+448, 1056);
+        do Memory.poke(memAddress+480, 0);
+        return;
+    }
+
+}

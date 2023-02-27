@@ -1,0 +1,68 @@
+class Main {
+   function void main() {
+      
+      var Game game;
+      var boolean win,con,g;
+      var int key;
+      let win = false;
+      let con = true;
+
+      while(con){
+
+         do Screen.setColor(false);
+         do Screen.drawRectangle(0,0,511,255);
+         do Output.moveCursor(12,21);
+         do Output.printString("Press 'S' to start.");
+
+         let g = true;
+         while(g){
+            let key = Pic.getkey();
+            if(key=83){
+               let g = false;
+            }
+         }
+
+         let game = Game.new();
+         let win = game.gameloop();
+
+         //dispose game
+         do game.dispose();
+
+         if(win){
+            do Screen.setColor(false);
+            do Screen.drawRectangle(0,0,511,255);
+            do Output.moveCursor(10,27);
+            do Output.printString("YOU WIN !!!");
+         }
+         else{
+            do Screen.setColor(false);
+            do Screen.drawRectangle(0,0,511,255);
+            do Output.moveCursor(10,27);
+            do Output.printString("YOU LOST...");
+         }
+         do Output.moveCursor(12,22);
+         do Output.printString("Press 'R' to restart.");
+         do Output.moveCursor(13,22);
+         do Output.printString("Press 'Q' to  quit  .");
+
+         let g = true;
+         while(g){
+            let key = Pic.getkey();
+            if(key=82){
+               let con = true;
+               let g = false;
+            }
+            if(key=81){
+               let con = false;
+               let g = false;
+            }
+         }
+         
+      }
+      
+      
+      return;
+   }
+   
+}
+
